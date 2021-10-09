@@ -30,5 +30,16 @@ module.exports = {
         } catch (e) {
             res.json(e);
         }
+    },
+
+    deleteUser: async (req, res) => {
+        try {
+            const {user_id} = req.params;
+            await User.deleteOne({id: user_id});
+
+            res.json('User is deleted');
+        } catch (e) {
+            res.json(e.message);
+        }
     }
 };
