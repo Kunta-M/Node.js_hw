@@ -11,12 +11,9 @@ module.exports = {
         }
     },
 
-    getUserById: async (req, res) => {
+    getUserById: (req, res) => {
         try {
-            const {user_id} = req.params;
-            const user = await User.findById(user_id);
-
-            res.json({user});
+            res.json(req.user);
         } catch (e) {
             res.json(e.message);
         }
@@ -35,7 +32,7 @@ module.exports = {
     deleteUser: async (req, res) => {
         try {
             const {user_id} = req.params;
-            await User.deleteOne({id: user_id});
+            await User.deleteOne({_id: user_id});
 
             res.json('User is deleted');
         } catch (e) {

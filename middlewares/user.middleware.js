@@ -23,6 +23,7 @@ module.exports = {
             if(!user) {
                 throw new Error ('User is not exists');
             }
+            req.user = user;
 
             next();
         } catch (e) {
