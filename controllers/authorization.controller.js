@@ -3,7 +3,7 @@ module.exports = {
         try {
             res.json(req.data);
         } catch (e) {
-            res.json(e);
+            res.json(e.message);
         }
     }
 };

@@ -7,7 +7,7 @@ module.exports = {
 
             res.json(users);
         } catch (e) {
-            res.json(e);
+            res.json(e.message);
         }
     },
 
@@ -18,7 +18,7 @@ module.exports = {
 
             res.json({user});
         } catch (e) {
-            res.json(e);
+            res.json(e.message);
         }
     },
 
@@ -28,7 +28,7 @@ module.exports = {
 
             res.json(newUser);
         } catch (e) {
-            res.json(e);
+            res.json(e.message);
         }
     },
 
