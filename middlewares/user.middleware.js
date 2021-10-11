@@ -27,7 +27,6 @@ module.exports = {
             }
 
             req.user = user;
-
             next();
         } catch (e) {
             res.json(e.message);
@@ -43,7 +42,6 @@ module.exports = {
             }
 
             req.body = value;
-
             next();
         } catch (e) {
             res.json(e.message);
@@ -59,7 +57,6 @@ module.exports = {
             }
 
             req.body = value;
-
             next();
         } catch (e) {
             res.json(e.message);
