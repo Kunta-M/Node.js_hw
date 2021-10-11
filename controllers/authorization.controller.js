@@ -1,7 +1,11 @@
+const userUtil = require('../util/user.util');
+
 module.exports = {
     authorizationController: (req, res) => {
         try {
-            res.json(req.user);
+            const normalizedUser = userUtil.userNormalizator(req.user);
+
+            res.json(normalizedUser);
         } catch (e) {
             res.json(e.message);
         }
