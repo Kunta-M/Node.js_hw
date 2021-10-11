@@ -31,9 +31,8 @@ module.exports = {
             const hashedPassword = await passwordService.hash(req.body.password);
 
             const newUser = await User.create({ ...req.body, password: hashedPassword });
-            const normalizedUser = userUtil.userNormalizator(newUser);
 
-            res.json(normalizedUser);
+            res.json(newUser);
         } catch (e) {
             res.json(e.message);
         }
