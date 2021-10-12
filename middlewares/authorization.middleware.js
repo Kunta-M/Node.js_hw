@@ -6,7 +6,7 @@ module.exports = {
     authorizationMiddleware: async (req, res, next) => {
         try {
             const { email, password } = req.body;
-            const userByLogin = await User.findOne({ email });
+            const userByLogin = await User.findOne({ email }).lean();
 
             if (!userByLogin) {
                 throw new Error('Wrong email or password');
