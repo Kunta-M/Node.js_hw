@@ -1,42 +1,70 @@
 const User = require('../dataBase/User');
+const passwordService = require('../service/password.service');
+const userUtil = require('../util/user.util');
 
 module.exports = {
-    getUsers: async (req, res) => {
+    getUsers: async (req, res, next) => {
         try {
-            const users = await User.find();
+            const users = await User.find().lean();
+
+            const normalizedUser = users.map(user => userUtil.userNormalizator(user));
           
-            res.json(users);
+            res.json(normalizedUser);
         } catch (e) {
-            res.json(e.message);
+            next(e);
         }
     },
 
-    getUserById: (req, res) => {
+    getUserById: (req, res, next) => {
         try {
-            res.json(req.user);
+            const normalizedUser = userUtil.userNormalizator(req.user);
+
+            res.json(normalizedUser);
         } catch (e) {
-            res.json(e.message);
+            next(e);
         }
     },
 
-    createUser: async (req, res) => {
+    createUser: async (req, res, next) => {
         try {
-            const newUser = await User.create(req.body);
+            const hashedPassword = await passwordService.hash(req.body.password);
 
-            res.json(newUser);
+            const newUser = await User.create({ ...req.body, password: hashedPassword });
+
+            const normalizedUser = userUtil.userNormalizator(JSON.parse(JSON.stringify(newUser)));
+
+            res.json(normalizedUser);
         } catch (e) {
-            res.json(e.message);
+            next(e);
         }
     },
 
-    deleteUser: async (req, res) => {
+    updateUser: async (req, res, next) => {
+        try {
+            const { user_id } = req.params;
+            const updatedUser = await User.findByIdAndUpdate(
+                user_id,
+                { name: req.body.name },
+                {new: true})
+                .lean();
+
+            const normalizedUser = userUtil.userNormalizator(updatedUser);
+
+            res.json(normalizedUser);
+
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    deleteUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
             await User.deleteOne({ _id: user_id });
 
             res.json('User is deleted');
         } catch (e) {
-            res.json(e.message);
+            next(e);
         }
     }
 };

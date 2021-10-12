@@ -1,19 +1,32 @@
-const User = require('../dataBase/User');
+const passwordService = require('../service/password.service');
+const authValidator = require('../validators/authorization.validator');
 
 module.exports = {
-    authorizationMiddleware: async (req, res, next) => {
+    isPasswordsMatched: async (req, res, next) => {
         try {
-            const { email, password } = req.body;
-            const userByLogin = await User.findOne({ email, password });
+            const { password } = req.body;
+            const { password: hashPassword } = req.user;
 
-            if (!userByLogin) {
-                throw new Error('User not found! Check email or password');
-            }
-            req.user = userByLogin;
+            await passwordService.compare(password, hashPassword);
 
             next();
         } catch (e) {
-            res.json(e.message);
+            next(e);
+        }
+    },
+
+    isUserBodyValidForAuth: (req, res, next) => {
+        try {
+            const { error, value } = authValidator.authorizationValidator.validate(req.body);
+
+            if (error) {
+                throw new Error('Wrong email or password');
+            }
+
+            req.body = value;
+            next();
+        } catch (e) {
+            next(e);
         }
     }
 };
