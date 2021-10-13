@@ -10,12 +10,4 @@ module.exports = {
             next(e);
         }
     },
-
-    logout: (req, res, next) => {
-        try {
-
-        } catch (e) {
-            next(e);
-        }
-    }
 };

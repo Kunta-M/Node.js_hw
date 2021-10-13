@@ -1,5 +1,6 @@
+const { authValidator } = require('../validators');
+const { ErrorHandler, errors } = require('../errors');
 const passwordService = require('../service/password.service');
-const authValidator = require('../validators/authorization.validator');
 
 module.exports = {
     isPasswordsMatched: async (req, res, next) => {
@@ -20,7 +21,7 @@ module.exports = {
             const { error, value } = authValidator.authorizationValidator.validate(req.body);
 
             if (error) {
-                throw new Error('Wrong email or password');
+                throw new ErrorHandler(errors.NOT_FOUND.message, errors.NOT_FOUND.status);
             }
 
             req.body = value;

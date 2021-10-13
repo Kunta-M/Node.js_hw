@@ -1,16 +1,16 @@
 const Joi = require('joi');
 
-const { EMAIL_REGEXP, PASSWORD_REGEXP } = require('../configs/constants');
+const { constants } = require('../configs');
 
 const authorizationValidator = Joi.object({
     email: Joi
         .string()
-        .regex(EMAIL_REGEXP)
+        .regex(constants.EMAIL_REGEXP)
         .trim()
         .required(),
     password: Joi
         .string()
-        .regex(PASSWORD_REGEXP)
+        .regex(constants.PASSWORD_REGEXP)
         .required()
 });
 

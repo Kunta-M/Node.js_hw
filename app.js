@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 const { PORT, MONGO_CONNECT_URL } = require("./configs/config");
 const { authRouter, userRouter } = require('./routes');
 

@@ -51,7 +51,6 @@ module.exports = {
             const normalizedUser = userUtil.userNormalizator(updatedUser);
 
             res.json(normalizedUser);
-
         } catch (e) {
             next(e);
         }
